@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<manifest>
+    <application name="PointMatcherRectify">
+        <crown name="PointMatcherRectify">
+            <desc>user script</desc>
+            <serves/>
+        </crown>
+        <meta key="author">AppSpace sample</meta>
+        <meta key="version">1.0</meta>
+        <meta key="licensed">false</meta>
+        <meta key="priority">low</meta>
+        <meta key="read-protected">false</meta>
+        <meta key="copy-protected">false</meta>
+        <entry path="pages" default="AppSpaceViewers-2.4.0.1.msdd">
+            <file type="application/zip">AppSpaceViewers-2.4.0.1.msdd</file>
+        </entry>
+        <entry path="resources">
+            <file type="image">1.bmp</file>
+            <file type="image">2.bmp</file>
+            <file type="image">3.bmp</file>
+            <file type="image">teach.bmp</file>
+        </entry>
+        <entry path="scripts" default="PointMatcherRectify.lua">
+            <file type="text/x-lua">PointMatcherRectify.lua</file>
+        </entry>
+    </application>
+</manifest>
