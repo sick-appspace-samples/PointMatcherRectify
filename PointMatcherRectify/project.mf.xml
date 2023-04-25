@@ -5,7 +5,7 @@
             <desc>user script</desc>
             <serves/>
         </crown>
-        <meta key="author">AppSpace sample</meta>
+        <meta key="author">AppSpace Sample</meta>
         <meta key="version">1.0</meta>
         <meta key="priority">low</meta>
         <meta key="read-protected">false</meta>

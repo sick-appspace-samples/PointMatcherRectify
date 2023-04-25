@@ -5,23 +5,17 @@ print('AppEngine Version: ' .. Engine.getVersion())
 local DELAY = 2000 -- ms between visualization steps for demonstration purpose
 
 -- Creating viewer
-local viewer = View.create('viewer2D1')
+local viewer = View.create()
 
 -- Decorations
-local textDecoration = View.TextDecoration.create()
-textDecoration:setColor(0, 100, 255)
-textDecoration:setSize(80)
-textDecoration:setPosition(20, 100)
+local textDecoration = View.TextDecoration.create():setColor(0, 100, 255)
+textDecoration:setSize(80):setPosition(20, 100)
 
-local pointDecoration = View.ShapeDecoration.create()
-pointDecoration:setPointSize(10)
-pointDecoration:setLineColor(0, 255, 255) -- Blue color scheme for "Teach" mode
-pointDecoration:setLineWidth(5)
+local pointDecoration = View.ShapeDecoration.create():setPointSize(10)
+pointDecoration:setLineWidth(5):setLineColor(0, 255, 255) -- Blue color scheme for "Teach" mode
 
-local foundDecoration = View.ShapeDecoration.create()
-foundDecoration:setPointSize(5)
-foundDecoration:setLineColor(0, 255, 0) -- Green color scheme for "Found" mode
-foundDecoration:setLineWidth(5)
+local foundDecoration = View.ShapeDecoration.create():setPointSize(5)
+foundDecoration:setLineWidth(5):setLineColor(0, 255, 0) -- Green color scheme for "Found" mode
 
 -- Creating a PointMatcher and set parameters
 local matcher = Image.Matching.PointMatcher.create()
@@ -46,10 +40,10 @@ local rectifiedRegionShape
 
 --Start of Function and Event Scope---------------------------------------------
 
---@teach(img:Image)
+---@param img Image
 local function teach(img)
   viewer:clear()
-  local imViewId = viewer:addImage(img) -- Present the teach image
+  viewer:addImage(img) -- Present the teach image
 
   -- Defining teach object position and teach region
   local objectCorners = {
@@ -72,9 +66,9 @@ local function teach(img)
   local teachPoints = Point.transform(modelPoints, teachPose)
 
   -- View teach setup
-  viewer:addShape(teachShape, foundDecoration, nil, imViewId)
-  viewer:addShape(teachPoints, pointDecoration, nil, imViewId)
-  viewer:addText('Teach image - Original', textDecoration, nil, imViewId)
+  viewer:addShape(teachShape, foundDecoration)
+  viewer:addShape(teachPoints, pointDecoration)
+  viewer:addText('Teach image - Original', textDecoration)
   viewer:present()
   Script.sleep(DELAY) -- For demonstration purpose only
 
@@ -95,19 +89,21 @@ local function teach(img)
   -- View everything
   viewer:clear()
   local imRect = img:transform(rectifyingTransform)
-  imViewId = viewer:addImage(imRect)
-  viewer:addShape(rectifiedRegionShape, foundDecoration, nil, imViewId)
-  viewer:addText('Teach image - Rectified', textDecoration, nil, imViewId)
+  viewer:addImage(imRect)
+  viewer:addShape(rectifiedRegionShape, foundDecoration)
+  viewer:addText('Teach image - Rectified', textDecoration)
   viewer:present()
 end
 
+---@param img Image
+---@param i int
 local function match(img, i)
   -- Perform a match operation. The return values are two vectors, one with pose transforms
   -- describing the positions and rotations of the found objects, and one vector with a score between
   -- 0.0 and 1.0 describing the quality of each match. In the current case, we are looking only
   -- for 1 object, so the vectors have length 1.
-  local poses,
-    scores = matcher:match(img)
+
+  local poses, scores = matcher:match(img)
   print('Match found with score: ' .. scores[1])
 
   -- Co-transform the teach shape using the Fixture object to overlay it on the live image
@@ -116,9 +112,9 @@ local function match(img, i)
 
   -- View the match result
   viewer:clear()
-  local imViewId = viewer:addImage(img)
-  viewer:addText('Live image ' .. tostring(i) .. ' - Original', textDecoration, nil, imViewId)
-  viewer:addShape(transformedShape, foundDecoration, nil, imViewId)
+  viewer:addImage(img)
+  viewer:addText('Live image ' .. tostring(i) .. ' - Original', textDecoration)
+  viewer:addShape(transformedShape, foundDecoration)
   viewer:present()
   Script.sleep(DELAY) -- For demonstration purpose only
 
@@ -139,9 +135,9 @@ local function match(img, i)
 
   -- View rectified image
   viewer:clear()
-  imViewId = viewer:addImage(imRectified)
-  viewer:addShape(rectifiedRegionShape, foundDecoration, nil, imViewId)
-  viewer:addText('Live image ' .. tostring(i) .. ' - Rectified', textDecoration, nil, imViewId)
+  viewer:addImage(imRectified)
+  viewer:addShape(rectifiedRegionShape, foundDecoration)
+  viewer:addText('Live image ' .. tostring(i) .. ' - Rectified', textDecoration)
   viewer:present()
 end
 
